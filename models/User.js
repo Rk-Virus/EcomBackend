@@ -7,9 +7,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: 'customer'
     },
-    userId : {
-        type : String
-    },
     name: {
         type: String,
         required: true
@@ -69,30 +66,30 @@ const userSchema = new mongoose.Schema({
 
 
 // --------Hashing password------------------------
-userSchema.pre('save', async function (next) {
-    if (this.isModified('password')) {
-        this.password = await bcrypt.hash(this.password, 10)
-    }
-    next();
-})
+// userSchema.pre('save', async function (next) {
+//     if (this.isModified('password')) {
+//         this.password = await bcrypt.hash(this.password, 10)
+//     }
+//     next();
+// })
 
 
 // --------Comparing password------------------------
-userSchema.methods.comparePassword = async function (password) {
+// userSchema.methods.comparePassword = async function (password) {
 
-    try {
-        return await bcrypt.compare(password, this.password)
-    } catch (err) {
-        console.log(err)
-    }
-}
+//     try {
+//         return await bcrypt.compare(password, this.password)
+//     } catch (err) {
+//         console.log(err)
+//     }
+// }
 
 // --------generatingToken----------------------------
 
-userSchema.methods.getToken = function () {
-    return jwt.sign({ _id: this._id }, process.env.JWT_SECRET, {
-        expiresIn: Math.floor(Date.now() / 1000) + process.env.COOKIE_EXPIRE * 24 * 60 * 60
-    })
-}
+// userSchema.methods.getToken = function () {
+//     return jwt.sign({ _id: this._id }, process.env.JWT_SECRET, {
+//         expiresIn: Math.floor(Date.now() / 1000) + process.env.COOKIE_EXPIRE * 24 * 60 * 60
+//     })
+// }
 
 module.exports = mongoose.model('User', userSchema)

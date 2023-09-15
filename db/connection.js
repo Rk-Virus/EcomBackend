@@ -1,7 +1,12 @@
 // MongoDB connection setup 
-const mongoose = require('mongoose')
-const dbURL = process.env.ATLAS_URI ; // Replace with MongoDB URL
-mongoose.connect(dbURL, { useNewUrlParser: true, useUnifiedTopology: true })
+const mongoose = require('mongoose');
+const { MongoClient } = require('mongodb');
+
+const uri = process.env.ATLAS_URI;
+
+const client = new MongoClient(uri);
+
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
 .then(() => {
   console.log('Connected to MongoDB');
 })
