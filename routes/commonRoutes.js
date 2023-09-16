@@ -5,7 +5,7 @@ const {
     //  fetchUser, 
     //         logoutUser, 
             registerUser, 
-            // loginUser, 
+            loginUser, 
             // getAllOffers, 
             // getsingleOffer, 
             // updateProfile, 
@@ -21,7 +21,7 @@ const {validateUserSignUp, userValidation} = require('../middlewares/validation/
 router.post("/register",
 //  validateUserSignUp, userValidation, 
  registerUser)
-// router.post("/login", loginUser)
+router.post("/login", loginUser)
 // router.get("/logout", logoutUser)
 // router.get("/fetch-user", isAuthenticated, fetchUser)
 // router.post("/update-profile", isAuthenticated, updateProfile)

@@ -1,6 +1,6 @@
 // const Offer = require('../Models/Offer')
 const User = require('../models/User')
-// const { sendToken } = require('../utils/tokenUtils')
+const { sendToken } = require('../utils/tokenUtils')
 // const { successResponse } = require('../utils/response');
 // const aws = require('aws-sdk');
 // const deleteFromS3 = require('../utils/deleteFromS3');
@@ -55,17 +55,11 @@ const User = require('../models/User')
 
         const user = new User(req.body)
 
-        user.save().then(result=>{
-            // console.log(result)
-            return res.status(201).json({msg: "User created successfully!"})
+        user.save().then(savedUser=>{
+            if(savedUser) sendToken(savedUser, res)
         }).catch(err=>{
             console.log(err)
         })
-
-        // const savedUser = await user.save()
-        // if(savedUser){
-        //     sendToken(savedUser, res)
-        // }
 
     }catch(err){
         console.log(err)
@@ -73,27 +67,29 @@ const User = require('../models/User')
         res.status(500).json({msg : "something went wrong", error : err.message})
     }
 }
+
+
 // ============Login User===============
+ const loginUser = async (req, res) =>{
+    const { phoneNo, password } = req.body;
+    if(!phoneNo || !password) return res.status(422).json({msg : "one or more fields required"})
+    try {
+        const foundUser = await User.findOne({ phoneNo });
+        if(!foundUser) return res.status(401).json({msg : "Incorrect phone number or password"})
 
-//  const loginUser = async (req, res) =>{
-//     const { phoneNo, password } = req.body;
-//     if(!phoneNo || !password) return res.status(400).json({msg : "one or more fields required"})
-//     try {
-//         const foundUser = await User.findOne({ phoneNo });
-//         if(!foundUser) return res.status(400).json({msg : "Either phoneNo or password is wrong"})
+        const isMatching =  await foundUser.comparePassword(password);
+        if(!isMatching) return res.status(401).json({msg : "Either phoneNo or password is wrong"})
 
-//         const isMatching =  await foundUser.comparePassword(password);
-//         if(!isMatching) return res.status(400).json({msg : "Either phoneNo or password is wrong"})
+        if(foundUser && isMatching){
+            sendToken(foundUser, res)
+            // return res.status(200).json({msg:"Login successful!"})
+        }
 
-//         if(foundUser && isMatching){
-//             sendToken(foundUser, res)
-//         }
-
-//     } catch (err) {
-//         console.log(err)
-//         res.status(500).json({msg : "something went wrong", error : err})
-//     }
-// }
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({msg : "something went wrong", error : err})
+    }
+}
 
 // const checkIfUserExist = async (req, res) => {
 //     try {
@@ -199,7 +195,7 @@ const User = require('../models/User')
 module.exports = {
     // getSignedUrlForS3,
     //  deleteImagesFromS3,
-      registerUser, 
-    //   loginUser, checkIfUserExist, updatePassword, fetchUser, logoutUser, updateProfile,
+      registerUser, loginUser, 
+    // checkIfUserExist, updatePassword, fetchUser, logoutUser, updateProfile,
     //  getAllOffers, getsingleOffer
     }
