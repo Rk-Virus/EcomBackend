@@ -30,7 +30,7 @@ app.get('/', middle , (req, res) => {
 
 // api routes
 app.use("/api", require("./routes/commonRoutes"))
-// app.use("/api/admin", require("./routes/adminRoutes"))
+app.use("/api/admin", require("./routes/adminRoutes"))
 // app.use("/api/customer", require("./routes/customerRoutes"))
 // app.use("/api/employee", require("./routes/employeeRoutes"))
 

@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-const User = require('../Models/User')
+const User = require('../models/User')
 
 const isAuthenticated = async (req, res, next) =>{
     try {
@@ -18,7 +18,7 @@ const isAuthenticated = async (req, res, next) =>{
         next()
     } catch (err) {
         console.log(err)
-        res.status(500).json({msg : "something went wrong", error : err.message})
+        res.status(500).json({msg : "something went wrong in authentication", error : err.message})
     }
 }
 

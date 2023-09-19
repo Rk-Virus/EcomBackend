@@ -1,4 +1,4 @@
-// const Offer = require('../Models/Offer')
+const Offer = require('../models/Offer')
 const User = require('../models/User')
 const { sendToken } = require('../utils/tokenUtils')
 // const { successResponse } = require('../utils/response');
@@ -43,7 +43,7 @@ const { sendToken } = require('../utils/tokenUtils')
 // }
 
  const registerUser = async(req, res)=>{
-    console.log("controller running...")
+    console.log("register controller running...")
     // destructuring details from request body
     const {name, email, phoneNo, password, address } = req.body
     if(!name || !email || !phoneNo || !password || !address){
@@ -103,82 +103,82 @@ const { sendToken } = require('../utils/tokenUtils')
 //     }
 // }
 
-// const updatePassword = async (req, res) => {
-//     try {
-//         const {phoneNo, password} = req.body
-//         const foundUser = await User.findOne({phoneNo})
-//         if(!foundUser) {
-//             return res.status(404).json({msg : "User doesn't exist with provided phone number"})
-//         }
 
-//         foundUser.password = password
-//         await foundUser.save()
-//         res.status(200).json({msg : 'success'})
-//     } catch (error) {
-//         console.log(error)
-//         res.status(500).json({msg : "something went wrong", error : error})
-//     }
+// ---------------- update Password ------------------------
+const updatePassword = async (req, res) => {
+    try {
+        const {phoneNo, password} = req.body
+        const foundUser = await User.findOne({phoneNo})
+        if(!foundUser) {
+            return res.status(404).json({msg : "User doesn't exist with provided phone number"})
+        }
 
-// }
+        foundUser.password = password
+        await foundUser.save()
+        res.status(200).json({msg : 'success'})
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({msg : "something went wrong", error : error})
+    }
+
+}
 
 // ============fetch User===============
+const fetchUser = async (req, res) =>{
+    try {
+        return res.status(200).json({msg : "success", response : req.user})
 
-// const fetchUser = async (req, res) =>{
-//     try {
-//         return res.status(200).json({msg : "success", response : req.user})
-
-//     } catch (err) {
-//         console.log(err)
-//         res.status(500).json({msg : "something went wrong", error : err.message})
-//     }
-// }
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({msg : "something went wrong", error : err.message})
+    }
+}
 
 // ============logout User===============
+const logoutUser = async (req, res) =>{
+    try {
+        res.cookie('userInfo', null, {
+            expires : new Date(Date.now()),
+            httpOnly : true
+        })
+        res.cookie('token', null, {
+            expires : new Date(Date.now()),
+            httpOnly : true
+        })
+        res.status(200).json({msg : "success"})
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({msg : "something went wrong", error : err})
+    }
+}
 
-// const logoutUser = async (req, res) =>{
-//     try {
-//         res.cookie('userInfo', null, {
-//             expires : new Date(Date.now()),
-//             httpOnly : true
-//         })
-        // res.cookie('token', null, {
-        //     expires : new Date(Date.now()),
-        //     httpOnly : true
-        // })
-//         res.status(200).json({msg : "success"})
-//     } catch (err) {
-//         console.log(err)
-//         res.status(500).json({msg : "something went wrong", error : err})
-//     }
-// }
-
-// const updateProfile = async (req, res) => {
-//     try {
-//         const {locationCoords, ...rest} = req.body
-//         let update = {
-//             ...rest,
-//             'location.coordinates' : locationCoords
-//         }
-//         const updatedProfile = await User.findByIdAndUpdate(req.user._id, update, {new : true})
-//         if(!updatedProfile) return res.status(404).json({msg : 'user not found'})
-//         res.status(200).json({msg : 'success', response : updatedProfile})
-//     } catch (error) {
-//         console.log(err)
-//         res.status(500).json({msg : "something went wrong", error : err})
-//     }
-// }
+const updateProfile = async (req, res) => {
+    try {
+        const {locationCoords, ...rest} = req.body
+        let update = {
+            ...rest,
+            'location.coordinates' : locationCoords
+        }
+        const updatedProfile = await User.findByIdAndUpdate(req.user._id, update, {new : true})
+        if(!updatedProfile) return res.status(404).json({msg : 'user not found'})
+        res.status(200).json({msg : 'success', response : updatedProfile})
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({msg : "something went wrong", error : err})
+    }
+}
 
 // ============Get all Offers===============
-
-// const getAllOffers = async (req, res)=>{
-//     try {
-//         const offers = await Offer.find()
-//         res.status(200).json({msg : "success", response : offers})
-//     } catch (err) {
-//         console.log(err)
-//         res.status(500).json({msg : "something went wrong", error : err})
-//     }
-// }
+const getAllOffers = async (req, res)=>{
+    try {
+        console.log("get all offer api")
+        const offers = await Offer.find()
+        res.status(200).json({msg : "success", response : offers})
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({msg : "something went wrong", error : err})
+    }
+}
 
 // const getsingleOffer = async (req, res) => {
 //     try {
@@ -196,6 +196,10 @@ module.exports = {
     // getSignedUrlForS3,
     //  deleteImagesFromS3,
       registerUser, loginUser, 
-    // checkIfUserExist, updatePassword, fetchUser, logoutUser, updateProfile,
-    //  getAllOffers, getsingleOffer
+    // checkIfUserExist,
+     updatePassword,
+      fetchUser,
+     logoutUser, updateProfile,
+     getAllOffers,
+    //  getsingleOffer
     }
