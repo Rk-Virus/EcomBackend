@@ -3,11 +3,6 @@ const router = express.Router()
 const { 
   addEmployee, 
             createOffer, 
-            // approveOrder, 
-            // getAllEmployees,
-            // getAllOrders,
-            // getEmployeeSchedule,
-            // getSingleOrder
           } = require('../controllers/adminControllers')
 // const isAdmin = require('../middlewares/isAdmin')
 // const isAuthenticated = require('../middlewares/isAuthenticated')
