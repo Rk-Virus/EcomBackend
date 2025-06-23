@@ -9,12 +9,6 @@ This is the backend API for an e-commerce application, built with **Node.js**, *
 - MongoDB (Atlas or local)
 - npm
 
-### 🔧 Installation
-```bash
-git clone https://github.com/your-username/ecommerce-backend.git
-cd ecommerce-backend
-npm install
-```
 
 ### 🔑 Environment Variables
 Create a `.env` file in the root with the following:
