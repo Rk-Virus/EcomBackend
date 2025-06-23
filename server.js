@@ -34,5 +34,5 @@ app.use("/api/admin", require("./routes/adminRoutes"))
 // app.use("/api/customer", require("./routes/customerRoutes"))
 
 app.listen(port, () => {
-  console.log(`Server listening on port ${port}`)
+  console.log(`Server listening on port ${port} db at ${process.env.ATLAS_URI}`)
 })
