@@ -15,8 +15,8 @@ Create a `.env` file in the root with the following:
 
 ```
 PORT=5000
-MONGO_URI=your_mongodb_connection_string
-JWT_SECRET=...
+MONGO_URI=mongodb_uri
+JWT_SECRET=jwt_secret
 COOKIE_EXPIRE=7d
 ```
 
