@@ -3,7 +3,6 @@ const User = require('../models/User')
 const { sendToken } = require('../utils/tokenUtils')
 
  const registerUser = async(req, res)=>{
-    console.log("register controller running...")
     // destructuring details from request body
     const {name, email, phoneNo, password, address } = req.body
     if(!name || !email || !phoneNo || !password || !address){
