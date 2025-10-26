@@ -41,7 +41,7 @@ const { sendToken } = require('../utils/tokenUtils')
 
         if(foundUser && isMatching){
             sendToken(foundUser, res)
-            // return res.status(200).json({msg:"Login successful!"})
+            return res.status(200).json({msg:"Login successful!"})
         }
 
     } catch (err) {

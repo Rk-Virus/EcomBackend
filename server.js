@@ -3,7 +3,6 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path')
 const cookieParser = require('cookie-parser')
-// const usersRouter = require('./routes/commonRoutes')
 
 const app = express()
 const port = process.env.PORT || 3000
@@ -31,7 +30,7 @@ app.get('/', middle , (req, res) => {
 // api routes
 app.use("/api", require("./routes/commonRoutes"))
 app.use("/api/admin", require("./routes/adminRoutes"))
-// app.use("/api/customer", require("./routes/customerRoutes"))
+app.use("/api/customer", require("./routes/customerRoutes"))
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`)

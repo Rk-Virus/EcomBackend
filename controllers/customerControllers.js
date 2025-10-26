@@ -1,9 +1,9 @@
-const Order = require("../Models/Order")
-const Offer = require("../Models/Offer")
-const User = require("../Models/User")
+const Order = require("../models/Order")
+const Offer = require("../models/Offer")
+const User = require("../models/User")
 const fetchApi = require("../utils/fetchApi")
 const cfSdk = require('cashfree-sdk');
-const Payout = require("../Models/Payout");
+const Payout = require("../models/Payout");
 const {getOrderId} = require("../utils/getUniqueCode");
 const { Payouts } = cfSdk;
 const { Cashgram } = Payouts;
@@ -255,7 +255,7 @@ const fetchCustomer = async (req, res) => {
 const getActiveOrders = async (req, res) => {
     try {
         const orders = await Order.find({ customer: req.user._id, endsAt: { $gte: Date.now() } })
-            .populate('employeeAllocated', 'userId phoneNo name profilePic')
+            .populate('agentAllocated', 'userId phoneNo name profilePic')
             .populate('offer')
 
         res.status(200).json({ msg: 'success', response: orders })
